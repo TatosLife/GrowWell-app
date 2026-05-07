@@ -35,7 +35,7 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="fixed inset-y-0 left-0 w-56 bg-gray-900 flex flex-col z-30">
+    <aside className="hidden lg:flex fixed inset-y-0 left-0 w-56 bg-gray-900 flex-col z-30">
       {/* Logo */}
       <div className="flex items-center gap-2.5 px-5 py-5 border-b border-gray-800">
         <div className="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center">
@@ -62,7 +62,6 @@ export default function Sidebar() {
           );
         })}
 
-        {/* Settings — owners only */}
         {currentUser?.is_owner && (
           <Link href="/settings" className={cn(
             "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",

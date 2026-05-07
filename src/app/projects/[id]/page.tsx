@@ -79,7 +79,7 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
       {/* Progress stepper */}
       <div className="card p-5 mb-6">
         <h2 className="text-sm font-semibold text-gray-900 mb-4">Production Pipeline</h2>
-        <div className="flex items-center">
+        <div className="flex items-center overflow-x-auto pb-1">
           {STATUSES.map((s, i) => {
             const done = i < statusIndex;
             const current = i === statusIndex;
@@ -99,9 +99,9 @@ export default function ProjectDetail({ params }: { params: { id: string } }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Checklist */}
-        <div className="col-span-2 space-y-4">
+        <div className="lg:col-span-2 space-y-4">
           <div className="card p-5">
             <h2 className="text-sm font-semibold text-gray-900 mb-4">Production Checklist</h2>
             <div className="space-y-3">

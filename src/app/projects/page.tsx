@@ -57,7 +57,7 @@ export default function ProjectsPage() {
       ) : (
         <>
           {/* Status summary strip */}
-          <div className="grid grid-cols-6 gap-3 mb-6">
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3 mb-6">
             {STATUSES.map((s) => {
               const count = projects.filter((p) => p.status === s).length;
               return (
@@ -71,7 +71,7 @@ export default function ProjectsPage() {
           </div>
 
           {/* Filters */}
-          <div className="flex items-center gap-3 mb-5">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-5">
             <div className="relative flex-1 max-w-xs">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input className="input pl-9" placeholder="Search projects or clients…" value={search} onChange={(e) => setSearch(e.target.value)} />
@@ -88,54 +88,58 @@ export default function ProjectsPage() {
             </select>
           </div>
 
-          {/* Table */}
+          {/* Table — scrollable on mobile, full on desktop */}
           <div className="card overflow-hidden">
-            <div className="grid grid-cols-[1fr_140px_120px_100px_100px_120px] text-xs font-medium text-gray-400 uppercase tracking-wide px-5 py-3 border-b border-gray-100 bg-gray-50">
-              <span>Project</span><span>Due Date</span><span>Status</span><span>Script</span><span>Footage</span><span>Assigned To</span>
-            </div>
-            <div className="divide-y divide-gray-50">
-              {filtered.length === 0 ? (
-                <div className="px-5 py-12 text-center text-gray-400 text-sm">No projects match your filters.</div>
-              ) : (
-                filtered.map((proj) => {
-                  const days = daysUntil(proj.due_date);
-                  const colorClass = deadlineColor(proj.due_date);
-                  const videog = team.find((t) => t.id === proj.assigned_videographer);
-                  const editor = team.find((t) => t.id === proj.assigned_editor);
-                  return (
-                    <Link key={proj.id} href={`/projects/${proj.id}`}
-                      className="grid grid-cols-[1fr_140px_120px_100px_100px_120px] items-center px-5 py-4 hover:bg-gray-50 transition-colors group">
-                      <div className="min-w-0 pr-4">
-                        <p className="text-sm font-medium text-gray-900 group-hover:text-brand-600 truncate">{proj.title}</p>
-                        <p className="text-xs text-gray-400 mt-0.5">{proj.client_name}</p>
-                      </div>
-                      <div>
-                        <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-md ${colorClass}`}>
-                          {days < 0 ? <AlertTriangle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
-                          {format(parseISO(proj.due_date), "MMM d")}
-                          {days < 0 ? ` (${Math.abs(days)}d late)` : days === 0 ? " (Today)" : ""}
-                        </span>
-                      </div>
-                      <div><span className={`badge ${STATUS_COLORS[proj.status]}`}>{STATUS_LABELS[proj.status]}</span></div>
-                      <div className="flex items-center gap-1.5 text-xs">
-                        <CheckCircle2 className={`w-4 h-4 ${proj.script_ready ? "text-green-500" : "text-gray-200"}`} />
-                        <span className={proj.script_ready ? "text-green-700" : "text-gray-400"}>{proj.script_ready ? "Ready" : "Pending"}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-xs">
-                        <CheckCircle2 className={`w-4 h-4 ${proj.footage_uploaded ? "text-green-500" : "text-gray-200"}`} />
-                        <span className={proj.footage_uploaded ? "text-green-700" : "text-gray-400"}>{proj.footage_uploaded ? "Uploaded" : "Pending"}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        {[videog, editor].filter(Boolean).map((m) => (
-                          <div key={m!.id} className={`w-7 h-7 rounded-full ${m!.color} flex items-center justify-center text-white text-xs font-bold border-2 border-white`} title={`${m!.name} (${m!.role})`}>
-                            {m!.avatar_initials}
+            <div className="overflow-x-auto">
+              <div className="min-w-[640px]">
+                <div className="grid grid-cols-[1fr_130px_110px_90px_90px_110px] text-xs font-medium text-gray-400 uppercase tracking-wide px-5 py-3 border-b border-gray-100 bg-gray-50">
+                  <span>Project</span><span>Due Date</span><span>Status</span><span>Script</span><span>Footage</span><span>Assigned To</span>
+                </div>
+                <div className="divide-y divide-gray-50">
+                  {filtered.length === 0 ? (
+                    <div className="px-5 py-12 text-center text-gray-400 text-sm">No projects match your filters.</div>
+                  ) : (
+                    filtered.map((proj) => {
+                      const days = daysUntil(proj.due_date);
+                      const colorClass = deadlineColor(proj.due_date);
+                      const videog = team.find((t) => t.id === proj.assigned_videographer);
+                      const editor = team.find((t) => t.id === proj.assigned_editor);
+                      return (
+                        <Link key={proj.id} href={`/projects/${proj.id}`}
+                          className="grid grid-cols-[1fr_130px_110px_90px_90px_110px] items-center px-5 py-4 hover:bg-gray-50 transition-colors group">
+                          <div className="min-w-0 pr-4">
+                            <p className="text-sm font-medium text-gray-900 group-hover:text-brand-600 truncate">{proj.title}</p>
+                            <p className="text-xs text-gray-400 mt-0.5">{proj.client_name}</p>
                           </div>
-                        ))}
-                      </div>
-                    </Link>
-                  );
-                })
-              )}
+                          <div>
+                            <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-md ${colorClass}`}>
+                              {days < 0 ? <AlertTriangle className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
+                              {format(parseISO(proj.due_date), "MMM d")}
+                              {days < 0 ? ` (${Math.abs(days)}d late)` : days === 0 ? " (Today)" : ""}
+                            </span>
+                          </div>
+                          <div><span className={`badge ${STATUS_COLORS[proj.status]}`}>{STATUS_LABELS[proj.status]}</span></div>
+                          <div className="flex items-center gap-1.5 text-xs">
+                            <CheckCircle2 className={`w-4 h-4 ${proj.script_ready ? "text-green-500" : "text-gray-200"}`} />
+                            <span className={proj.script_ready ? "text-green-700" : "text-gray-400"}>{proj.script_ready ? "Ready" : "Pending"}</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-xs">
+                            <CheckCircle2 className={`w-4 h-4 ${proj.footage_uploaded ? "text-green-500" : "text-gray-200"}`} />
+                            <span className={proj.footage_uploaded ? "text-green-700" : "text-gray-400"}>{proj.footage_uploaded ? "Uploaded" : "Pending"}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            {[videog, editor].filter(Boolean).map((m) => (
+                              <div key={m!.id} className={`w-7 h-7 rounded-full ${m!.color} flex items-center justify-center text-white text-xs font-bold border-2 border-white`} title={`${m!.name} (${m!.role})`}>
+                                {m!.avatar_initials}
+                              </div>
+                            ))}
+                          </div>
+                        </Link>
+                      );
+                    })
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </>

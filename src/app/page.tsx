@@ -17,19 +17,19 @@ export default function Dashboard() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-start justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-500 text-sm mt-1">{format(new Date(), "EEEE, MMMM d, yyyy")}</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-gray-500 text-xs sm:text-sm mt-1">{format(new Date(), "EEEE, MMMM d, yyyy")}</p>
         </div>
         <div className="flex gap-2">
-          <Link href="/crm" className="btn-secondary">+ Add Client</Link>
-          <Link href="/projects" className="btn-primary">+ New Project</Link>
+          <Link href="/crm" className="btn-secondary text-xs sm:text-sm px-2 sm:px-4">+ Client</Link>
+          <Link href="/projects" className="btn-primary text-xs sm:text-sm px-2 sm:px-4">+ Project</Link>
         </div>
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
         <div className="card p-5">
           <div className="flex items-center justify-between mb-3">
             <p className="text-sm text-gray-500 font-medium">Active Clients</p>
@@ -75,9 +75,9 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Deadlines */}
-        <div className="col-span-2">
+        <div className="lg:col-span-2">
           <div className="card">
             <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
               <h2 className="font-semibold text-gray-900">Project Deadlines</h2>

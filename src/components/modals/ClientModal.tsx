@@ -7,7 +7,7 @@ import { X } from "lucide-react";
 interface Props { open: boolean; onClose: () => void; }
 
 const PLATFORMS: Platform[] = ["instagram", "facebook", "tiktok", "youtube"];
-const PACKAGE_RATES: Record<PackageTier, number> = { silver: 1800, gold: 3500, custom: 0 };
+const PACKAGE_RATES: Record<PackageTier, number> = { silver: 1500, gold: 2500, custom: 0 };
 
 export default function ClientModal({ open, onClose }: Props) {
   const { addClient, markets, session } = useStore();
